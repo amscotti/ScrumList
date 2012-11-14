@@ -1,0 +1,72 @@
+<div class="hero-unit">
+
+    <form class="form-inline spaceBelow" ng-submit="formSubmit()">
+        <fieldset>
+            <legend>Add New Task</legend>
+            <input class="input-xlarge" type="text" placeholder="Task Name" ng-model="formData.taskName">
+            <button type="submit" class="btn btn-primary"><i class="icon-plus icon-white"></i> Add</button>
+            <button ng-click="removeAllTask()" type="button" class="btn btn-primary"><i class="icon-trash icon-white"></i> Remove All</button>
+        </fieldset>
+    </form>
+
+
+	<h2>Completed</h2>
+	<table class="table table-hover spaceBelow">
+		<thead>  
+          <tr>  
+            <th class="taskWidth">Task</th>
+            <th>Actions</th>
+          </tr>  
+        </thead>
+		<tr ng-repeat="task in taskList | filter:'completed'">
+			<td>{{task.name}}</td>
+            <td>
+                <a class="btn btn-primary" href="" ng-click="removeTask(task)"><i class="icon-trash icon-white"></i> Remove</a>
+            </td>
+		</tr>
+	</table>
+
+	<h2>Working On</h2>
+	<table class="table table-hover spaceBelow">
+		<thead>  
+          <tr>  
+            <th class="taskWidth">Task</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+		<tr ng-repeat="task in taskList | filter:{status:'workingOn'}">
+			<td>
+                <div ng-hide="task.edit">{{task.name}}</div>
+                <div ng-show="task.edit"><input type="text" ng-model="task.name"/></div>
+            </td>
+            <td>
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="" ng-click="task.edit = !task.edit" ng-init="task.edit=false"><i class="icon-pencil icon-white"></i> Edit</a>
+                    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="changeStatus(task, 'completed')" href=""><i class="icon-check"></i> Completed</a></li>
+                        <li><a ng-click="changeStatus(task, 'blocked')" href=""><i class="icon-ban-circle"></i> Blocked</a></li>
+                        <li><a ng-click="removeTask(task)" href=""><i class="icon-trash"></i> Remove</a></li>
+                    </ul>
+                </div>
+            </td>
+		</tr>
+	</table>
+
+	<h2>Blocked</h2>
+	<table class="table table-hover spaceBelow">
+		<thead>  
+          <tr>  
+            <th class="taskWidth">Task</th>
+            <th>Actions</th>
+          </tr>  
+        </thead>
+		<tr ng-repeat="task in taskList | filter:'blocked'">
+			<td>{{task.name}}</td>
+            <td>
+                <a class="btn btn-primary" href="" ng-click="changeStatus(task, 'workingOn')"><i class="icon-wrench icon-white"></i> Working on</a>
+            </td>
+		</tr>
+	</table>
+
+</div>
